@@ -1,0 +1,294 @@
+INSTALACIÓN :
+
+1-. INSTALAR XAMPP, ya que, laravel 8 usa una versión de php mayor a 7.3 y laragon trae 7.2.
+
+2-. INSTALAR COMPOSER, instalaro dentro de xampp/php/php.exe
+
+3-. INSTALAR GIT para usarlo como terminal para la creación del proyecto.
+
+4-. UNA VEZ INSTALADO GIT, IRTE A LA  LA UBICACIÓN DENTRO DE CARPETA htdocs y una vez dentro de ella
+escribir el siguiente comando:
+
+composer global require laravel/installer
+
+5-. para ver la versión de php que estamos usando: php -v 
+
+6-. PARA CREAR NUEVO PROYECTO (DENTRO DE HTDOCS)
+
+laravel new blog
+            ^nombnre de la aplicación
+
+
+7-. poara entrar a la página creada:
+
+http://localhost/blog/public/
+
+
+8-. Instalar vs code OPCIONAL
+
+9-. Para cambiar el index de la páginair a 
+resource > view > welcome.blade.php
+
+==========================================================================
+==========================================================================
+EXTENSIONES DE VISUAL STUDIO code
+
+1.Laravel Snippets 
+
+2.PHP Intelephense
+
+3-Larave Blade Snippets
+
+
+==========================================================================
+==========================================================================
+
+
+RUTAS.
+
+Las rutas se encuentran en routes > web.php
+
+Los controlardores se hacen dentro de :
+app > http > controllers
+
+En laravel 8 asignación de controllers en rutas se hace 
+1-. asignar namespace (use) en web.php y darle route.
+
+==========================================================================
+==========================================================================
+
+VISTAS
+
+las vistas se guardan dentro 
+resources > views
+
+Directivas de blade, son las que se hacen un layouts, en el cual estarán repetidas secciones para ser usadas dentro de otras 
+páginas. Para que php entienda las directivas, debe usarse blade.php como extemsión de archivo.
+
+yield: lo que se va a mostrar enm content
+content: mostrar el yield
+
+
+
+==========================================================================
+==========================================================================
+
+BD
+
+PARA ADMINISTRAR BD ESTÁ en :
+
+config > database.php
+
+PERO NO CAMBIAR NADA AHÍ POR QUE HAY QUE CAMBIARLO EN ENV.
+
+PARA SUBIR LAS MIGRACIONES:
+
+php artisan migrate
+
+para crear mis propias migrations:
+
+php artisan make:migration cursos
+
+
+SI SE HACE UNA NUEVA TABLA Y SE QUIERE PONER:
+
+php artisan migrate
+
+si se quiere ahcer rollback
+
+php artisan migrate:rollback
+
+
+Para crear una migration con nombre en terminal:
+
+php artisan make:migration create_cursos_table
+
+Para actualizar la tabla con datos nmuevo en la migracióp
+
+php artisan migrate:fresh
+
+
+para agregar un  campo a la migration de una tabla
+
+php artisan make:migration add_avatar_to_users_table
+
+y dentro de esa misma migration llamada add..**, poner los datos que voy a querer añadir a la table.
+
+para agregar php artisan migrate
+
+
+
+Para modificar la estructura de de un dato poner en terminal
+
+composer require doctrine/dbal
+
+y crear una migración:
+
+php artisan make:migration cambiar_propiedades_to_users_table
+
+escribir el cambio de la tabla dentro de la migración hecha recién.
+y poner php artisan migrate
+
+==========================================================================
+==========================================================================
+
+ELOQUENT
+
+MODEL
+
+Cuando haces modelos, el modelo creado tiene que ser en singular del inglés, ejemplom si la tabla se llama cursos,
+el modelo se debe lamar curso en singular.
+
+Los modelos se guardan en : 
+
+app >  modelos
+
+Crea un modelo :
+
+php artisan make:model curso
+
+
+TINKER (para ingresar datos a  una tabla dentro de la bd con la consola de git)
+php artisan tinker
+
+exit
+(para salir de tinker)
+
+
+Para ser uso del modelo con tinker hay que poner use y el namespace del modelo
+
+>>use App\Models\Curso;
+
+ahora se creará una instancia de la clase:
+
+>>$curso = new Curso;
+// si después queremos crear otro objeto símplemente cambairle el nbombre a la variable onda $curso2 = Curso;
+//de ahí en adelante seguir con el otro registro como $curso2;
+
+$curso->name = 'Laravel';
+
+$curso->descripcion = "El mejor framework de PHP";
+
+$curso;
+(para ver los datos que tiene la instancia)
+
+$curso->save();
+
+
+
+
+Se puede asignar cualquier modelo a cualquier tabla.
+
+
+==========================================================================
+==========================================================================
+
+
+SEEDERS
+
+(BORRAR TODAS LAS TABLAS ACTUALMENTE EN LA BASE DE DATOS)
+
+php artisan migrate:reset
+
+
+Dentro de DatabaseSeeder.php, se puede ingresar datos como se hizo con tikner, pero la idea es crear otro SEEDERS pero hay que 
+poner use App\Models\Curso, siempre se ponen los uses dento de los seeders.
+
+Crear seeder:
+
+php artisan make:seeder CursoSeeder
+
+(meter los registros dentro de esa seed)
+
+php artisan migrate:fresh
+
+//después dentro de DatabaseSeeder.php llamar el sseder que hice cursoSeeder
+
+
+php artisan db:seed
+
+php artisan migrate:fresh --seed
+
+
+==========================================================================
+==========================================================================
+
+
+FACTORYS
+
+LLena la bd con datos de prueba.
+>> php artisan make:factory CursoFactory
+>> php artisan make:factory CursoFactory --model=curso
+
+el segundo es para cuando quieres darle valores al modelo de una, aunque con la primera linea de comando ya 
+se agregaban automáticamente los cursos.
+
+crea factory dentro de database > factories > CursoFactory
+
+Se borra el Cursoseeder, y se ejecuta al final el seeder dentro de DatabaseSeeder.php
+
+==========================================================================
+==========================================================================
+
+Form Request
+
+php artisan make:request StoreCurso
+
+queda guardado en :
+
+app > http > request 
+
+es para los loggins, su autorización
+
+==========================================================================
+==========================================================================
+
+Route Resource
+
+se comentaron las rutas, se creó una, y en el bash poner:
+
+>> php artisan r:l
+
+
+si se quieren traducir las rutas:
+
+buscar en documentación oficioal de laravel poner controllers y buscar en el 
+resourceVerbs
+
+hay que ir a app > privders > appServiceProvider.php
+
+==========================================================================
+==========================================================================
+
+URLS amigables
+
+Se creó un campo slug en la migración de la table curso y en el factory para que se autollenen
+
+
+==========================================================================
+==========================================================================
+
+Si se quieren mandar mails:
+hacer configuraciones en .ENV
+
+y en cmd de laravel:
+
+>> php artisan make:mail ContactanosMailable
+
+==========================================================================
+==========================================================================
+
+Se usará jetstram
+
+para instalarlo en laravel
+
+
+
+
+
+
+
+
+
+
+
